@@ -1,0 +1,173 @@
+# =========================================================
+# MARUDHAR JAN KALYAN FOUNDATION
+# https://marudharjankalyan.org/
+# =========================================================
+
+
+# ---------------------------------------------------------
+# 1. ENABLE REWRITE ENGINE
+# ---------------------------------------------------------
+
+RewriteEngine On
+
+
+# ---------------------------------------------------------
+# 2. FORCE HTTPS
+# ---------------------------------------------------------
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://marudharjankalyan.org%{REQUEST_URI} [R=301,L]
+
+
+# ---------------------------------------------------------
+# 3. REMOVE WWW
+#    www.marudharjankalyan.org
+#    ↓
+#    marudharjankalyan.org
+# ---------------------------------------------------------
+
+RewriteCond %{HTTP_HOST} ^www\.marudharjankalyan\.org$ [NC]
+RewriteRule ^ https://marudharjankalyan.org%{REQUEST_URI} [R=301,L]
+
+
+# ---------------------------------------------------------
+# 4. CUSTOM 404 PAGE
+# ---------------------------------------------------------
+
+ErrorDocument 404 /404.html
+
+
+# ---------------------------------------------------------
+# 5. DIRECTORY INDEX
+# ---------------------------------------------------------
+
+DirectoryIndex index.html
+
+
+# ---------------------------------------------------------
+# 6. BLOCK DIRECTORY LISTING
+# ---------------------------------------------------------
+
+Options -Indexes
+
+
+# ---------------------------------------------------------
+# 7. PROTECT .HTACCESS
+# ---------------------------------------------------------
+
+<Files ".htaccess">
+    Require all denied
+</Files>
+
+
+# ---------------------------------------------------------
+# 8. BLOCK COMMON SENSITIVE FILES
+# ---------------------------------------------------------
+
+<FilesMatch "\.(env|ini|log|conf|config|bak|backup|sql|sqlite|db)$">
+    Require all denied
+</FilesMatch>
+
+
+# ---------------------------------------------------------
+# 9. BLOCK GIT DIRECTORY
+# ---------------------------------------------------------
+
+RedirectMatch 404 /\.git
+
+
+# ---------------------------------------------------------
+# 10. BLOCK SYSTEM / PRIVATE FILES
+# ---------------------------------------------------------
+
+<FilesMatch "^(composer\.json|composer\.lock|package\.json|package-lock\.json|yarn\.lock)$">
+    Require all denied
+</FilesMatch>
+
+
+# ---------------------------------------------------------
+# 11. PREVENT HOTLINKING OF IMAGES
+#    फिलहाल disabled रखा गया है
+#    क्योंकि social sharing / external preview
+#    में images उपयोग हो सकती हैं.
+# ---------------------------------------------------------
+
+
+# ---------------------------------------------------------
+# 12. BROWSER CACHING
+# ---------------------------------------------------------
+
+<IfModule mod_expires.c>
+
+    ExpiresActive On
+
+    ExpiresByType text/html "access plus 1 hour"
+
+    ExpiresByType text/css "access plus 7 days"
+
+    ExpiresByType application/javascript "access plus 7 days"
+
+    ExpiresByType image/jpeg "access plus 30 days"
+
+    ExpiresByType image/png "access plus 30 days"
+
+    ExpiresByType image/webp "access plus 30 days"
+
+    ExpiresByType image/svg+xml "access plus 30 days"
+
+    ExpiresByType image/x-icon "access plus 30 days"
+
+    ExpiresByType application/pdf "access plus 30 days"
+
+</IfModule>
+
+
+# ---------------------------------------------------------
+# 13. GZIP / DEFLATE COMPRESSION
+# ---------------------------------------------------------
+
+<IfModule mod_deflate.c>
+
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+
+</IfModule>
+
+
+# ---------------------------------------------------------
+# 14. SECURITY HEADERS
+# ---------------------------------------------------------
+
+<IfModule mod_headers.c>
+
+    Header always set X-Content-Type-Options "nosniff"
+
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+</IfModule>
+
+
+# ---------------------------------------------------------
+# 15. BASIC MIME TYPES
+# ---------------------------------------------------------
+
+AddType image/webp .webp
+AddType image/svg+xml .svg
+AddType application/pdf .pdf
+
+
+# =========================================================
+# END
+# =========================================================
