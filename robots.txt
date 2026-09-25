@@ -1,0 +1,38 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /index.html
+Allow: /about-us.html
+Allow: /yojana.html
+Allow: /photo-gallery.html
+Allow: /contact.html
+Allow: /sitemap.html
+
+# Assets
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /logo-transparent.png
+
+# Block private/system files and folders
+Disallow: /.git/
+Disallow: /.env
+Disallow: /.htaccess
+Disallow: /config/
+Disallow: /backup/
+Disallow: /backups/
+Disallow: /private/
+Disallow: /admin/
+Disallow: /logs/
+
+# Block unnecessary file types
+Disallow: /*.sql$
+Disallow: /*.log$
+Disallow: /*.bak$
+Disallow: /*.backup$
+Disallow: /*.ini$
+Disallow: /*.conf$
+
+# Sitemap
+Sitemap: https://marudharjankalyan.org/sitemap.xml
